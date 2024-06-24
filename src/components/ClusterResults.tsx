@@ -1,10 +1,11 @@
-// components/ClusterResults.tsx
-import React, { useState } from 'react';
+"use client";
+
+import React, { useState, useEffect } from 'react';
 
 const ClusterResults = () => {
   const [result, setResult] = useState<any>(null);
 
-  const handleCluster = async () => {
+  const fetchClusterData = async () => {
     try {
       const response = await fetch('/api/cluster', {
         method: 'POST',
@@ -15,6 +16,14 @@ const ClusterResults = () => {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+  };
+
+  useEffect(() => {
+    fetchClusterData(); // Llamamos a la función al cargar el componente en el cliente
+  }, []); // El arreglo vacío [] indica que useEffect se ejecuta solo una vez al montar el componente
+
+  const handleCluster = async () => {
+    fetchClusterData(); // Llamamos a la función al hacer clic en el botón "Run Clustering"
   };
 
   return (
@@ -38,3 +47,4 @@ const ClusterResults = () => {
 };
 
 export default ClusterResults;
+
